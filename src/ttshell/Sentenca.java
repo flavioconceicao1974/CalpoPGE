@@ -62,20 +62,19 @@ public class Sentenca {
                         lo.add(o);
                         o = new Oracao();
                     }
-                    if( !lo.isEmpty() || c.getTipo() == "OCSt"|| c.getTipo() == "O?" ){ 
+                    if (!lo.isEmpty() || c.getTipo() == "OCSt" || c.getTipo() == "O?") {
                         //System.out.println(c.getConjuncao());
                         // para ser definido um tipo, a oração coordenada sindética não
                         // pode ser a primeira do período (sentença), ou seja,
                         // a lista de orações da sentença não pode ser vazia, caso contrário,
                         // serão classificadas erroneamente orações do tipo do exemplo a seguir:
                         // Cabe ressaltar que o réu é pessoa de boa índole e honesta. Outrossim, cumpre salientar que possui bons antecedentes e jamais participou em qualquer delito
-                        
+
                         // As exceções aqui são somente "OCA" ou orações subordinadas como a do
                         // exemplo a seguir:
                         //Quando era menino, João era pobre, porém era feliz!
-
                         o.setClasse(c.getTipo());
-                        
+
                     }
                     o.setConjuncao(true);
                 }
@@ -83,21 +82,24 @@ public class Sentenca {
                 if (c.getCaso() == 3 && lo.size() > 0) { // O rio se estreitava, ora se alargava caprichosamente.
                     classificaCasoTres(c, o);
                 } else if (c.getCaso() == 4) {
-                    System.out.println(o);
                     o.setTipo(COORDENADA_FALSA_ADJETIVA);
                     if (i > 0 && !lil.get(i - 1).isVirgula()) {
                         o.setClasse("O?");
                     }
                 } else if (c.getCaso() >= 6) {  // 
-                                                // A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
+                    // A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
+
                     if (i + 1 < lil.size()) {
-                        HandlerConjuncao hc = new HandlerConjuncao();
-                        String locucaoConjuntiva = il.getItemLexical() + " " + lil.get(i + 1).getItemLexical();
-                        c = hc.reconhece(locucaoConjuntiva);
+
+                        if (c.getCaso() != 8) {
+                            HandlerConjuncao hc = new HandlerConjuncao();
+                            String locucaoConjuntiva = il.getItemLexical() + " " + lil.get(i + 1).getItemLexical();
+                            c = hc.reconhece(locucaoConjuntiva);
+                        }
                         if (c != null) {
                             o.setClasse(c.getTipo());
 
-                            { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
+                            if (c.getCaso() != 8){ // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
                                 // esse procedimento no próximo laço!
                                 flagAddLexema = false;
 
@@ -106,15 +108,28 @@ public class Sentenca {
                                 o.add(lil.get(i + 1));
                                 i++;
                             }
-                            if( c.getCaso() == 7){
+                            if (c.getCaso() == 7) {
                                 // caso 7 = A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
                                 classificaCasoTres(c, o);
-                                if( !o.getClasse().equals("O?")){
+                                if (!o.getClasse().equals("O?")) {
                                     o.setVerbo(true);
                                 }
-                            }else{ 
+                            } else {
                                 //Ele não só estuda, mas também trabalha. ==> caso 6
-                                classificaCasoSeis(c, o);
+                                if (!classificaCasoSeis(c, o)) {
+                                    if (c.getCaso() == 8) {
+                                        // pode ser caso 3
+                                        // Ela tanto  correu como caminhou.
+                                        HandlerConjuncao hc = new HandlerConjuncao();
+                                        c = hc.reconhece(c.getConjuncao(), 3);
+                                        classificaCasoTres(c, o);
+                                    } else {
+                                        //  => oração INcompleta Eg. O rio se estreitava, ora se alargava caprichosamente.
+                                        Oracao oAux = lo.get(lo.size() - 1);
+                                        oAux.setClasse("O?");
+                                        o.setClasse("O?");
+                                    }
+                                }
                             }
                         }
                     }
@@ -182,7 +197,7 @@ public class Sentenca {
                 // Criada por mim => Os elefantes são animais muito grandes, porém têm medo, medo de ratos.  
                 o = reverteOracao(o);
             } else if (il.isVerbo()) {
-                   //System.out.println(il);
+                //System.out.println(il);
                 // Ela é rica, poderia exibir roupas finas, visto que veste-se com simplicidade.
                 //VERIFICAR MELHOR ESTA PARTE DO CÓDIGO
                 if (i + 1 < lil.size()) {
@@ -301,7 +316,7 @@ public class Sentenca {
         ItemLexical ilPosterior = lil.get(i + 1);
 
         if ((ilAnterior.isAdjetivo() // E.g. Carlos e André / Nem maria nem João / etc...
-                                     // O homem depende do solo e da flora; deve, pois, preservá-los.
+                // O homem depende do solo e da flora; deve, pois, preservá-los.
                 || ilAnterior.isDeterminante()
                 || ilAnterior.isPreposicao()
                 || ilAnterior.isPronome()
@@ -309,12 +324,12 @@ public class Sentenca {
                 && (ilPosterior.isAdjetivo()
                 || ilPosterior.isDeterminante()
                 || ilPosterior.isPreposicao()
-                || ( ilPosterior.isPronome() &&
-                     !(ilPosterior.getItemLexical().toLowerCase().equals("a")) &&
-                     !(ilPosterior.getItemLexical().toLowerCase().equals("o")) )
-                     // Ele não concordou com a menina e a deixou.
+                || (ilPosterior.isPronome()
+                && !(ilPosterior.getItemLexical().toLowerCase().equals("a"))
+                && !(ilPosterior.getItemLexical().toLowerCase().equals("o")))
+                // Ele não concordou com a menina e a deixou.
                 || ilPosterior.isSubstantivo())) {
-                
+
             return true;
         }
         return false;
@@ -333,9 +348,20 @@ public class Sentenca {
      */
     public void classificaCasoTres(Conjuncao c, Oracao corr) {
         Oracao o = lo.get(lo.size() - 1);
+        
+        if (c == null) {
+            //  => oração INcompleta Eg. O rio se estreitava, ora se alargava caprichosamente.
+            o.setClasse("O?");
+            corr.setClasse("O?");
+            return;
+        }
+
+        
+        
         for (int i = 0; i < o.size(); i++) {
             String lexema = o.getItemLexical(i).getItemLexical();
             if (c.getComplemento().equals(lexema.toLowerCase())) {  // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
+                System.out.println("ok teste");
                 return; // ok => oração completa Eg. O rio ora se estreitava, ora se alargava caprichosamente.
             }
         }
@@ -344,7 +370,7 @@ public class Sentenca {
         corr.setClasse("O?");
     }
 
-    public void classificaCasoSeis(Conjuncao c, Oracao corr) {
+    public boolean classificaCasoSeis(Conjuncao c, Oracao corr) {
         Oracao o = lo.get(lo.size() - 1);
         String[] complemento = c.getComplemento().split(" ");
         for (int i = 0; i < o.size(); i++) {
@@ -354,15 +380,14 @@ public class Sentenca {
                     lexema = o.getItemLexical(i + 1).getItemLexical();
                     for (int j = 1; j < complemento.length; j++) {
                         if (complemento[j].equals(lexema)) { // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
-                            return; // ok => oração completa Eg. O rio ora se estreitava, ora se alargava caprichosamente.
+                            return true; // ok => oração completa Eg. O rio ora se estreitava, ora se alargava caprichosamente.
                         }
                     }
                 }
             }
         }
         //  => oração INcompleta Eg. O rio se estreitava, ora se alargava caprichosamente.
-        o.setClasse("O?");
-        corr.setClasse("O?");
+        return false;
     }
 
     public void classificaOracao() {
@@ -385,7 +410,7 @@ public class Sentenca {
                 flagTemOracaoCoordenada = true;
             } else if (o.getTipo() == SUBORDINADA) {
                 flagTemOracaoSubordinada = true;
-                //System.out.println("subordinada");
+                System.out.println("subordinada");
             } else if (o.getTipo() == COORDENADA_FALSA_ADJETIVA) {
                 if (o.isFalsaAdjetiva()) { // Eg. Abram-me estas portas, que eu a trarei. 
                     // = Olhou a caatiga amarela, que o poente avermelhava.
@@ -447,24 +472,24 @@ public class Sentenca {
         // Em qualquer caso??? Revisar
         for (int i = 0; i < lo.size(); i++) {
             Oracao o = lo.get(i);
-            if ((o.getClasse() == "O?") && 
-                    lo.size() > i + 1 && 
-                    lo.get(i + 1).getClasse() != null && 
-                    lo.get(i + 1).getClasse() != "O?" && 
-                    lo.get(i + 1).getClasse().charAt(2) == 'S') {
+            if ((o.getClasse() == "O?")
+                    && lo.size() > i + 1
+                    && lo.get(i + 1).getClasse() != null
+                    && lo.get(i + 1).getClasse() != "O?"
+                    && lo.get(i + 1).getClasse().charAt(2) == 'S') {
                 //Eu Sabia que ela vinha, mas não esperava que fosse hoje.
                 o.setClasse("OCA");
             }
-            
-            if (o.getClasse() == "O?" && 
-                    !o.isConjuncao()  &&
-                    lo.size() > i + 1 && 
-                    !lo.get(i + 1).isConjuncao()) {
+
+            if (o.getClasse() == "O?"
+                    && !o.isConjuncao()
+                    && lo.size() > i + 1
+                    && !lo.get(i + 1).isConjuncao()) {
                 //Horácio a amava sem dúvida: já lhe tinha dado provas de que sentia uma paixão veemente.
 
                 o.setClasse("OCA");
             }
-            
+
         }
 
     }

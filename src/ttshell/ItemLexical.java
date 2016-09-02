@@ -59,7 +59,8 @@ public class ItemLexical {
                 // Eg. O Grêmio perdeu o grenal, todavia o Inter é o novo campeão! (Todavia)
                 return hc.reconhece(this.getItemLexical());
             case 'P': // pronome relativo Eg. Não te queixes, que há outros mais infelizes.
-                if (this.getClasseGramatical().equals("PR0")) {
+                if((this.getClasseGramatical().equals("PR0")) || 
+                   (this.getClasseGramatical().equals("PT0"))) {  // Ela tanto andou quanto caminhou. (calpo 2.7)
                     return hc.reconhece(this.getItemLexical());
                 }
                 break;

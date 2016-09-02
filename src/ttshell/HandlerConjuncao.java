@@ -34,6 +34,13 @@ public class HandlerConjuncao {
         c.setComplemento("não");
         lc.add(c);
         
+        c = new Conjuncao("quanto", "OCSd");
+        c.setCaso(3);
+        c.setComplemento("tanto");
+        lc.add(c);
+        
+            
+        
         
         lc.add(new Conjuncao("outrossim", "OCSd"));
         // Cabe ressaltar que o réu é pessoa de boa índole e honesta, Outrossim, cumpre salientar que possui bons antecedentes e jamais participou em qualquer delito
@@ -46,12 +53,28 @@ public class HandlerConjuncao {
         c.setCaso(6);
         lc.add(c);
              
-        
-
+        /*
         c = new Conjuncao("como", "O?");
         c.setCaso(6);
         lc.add(c);
+        
+        
+                */
 
+        c = new Conjuncao("como", "OCSd");
+        c.setComplemento("não só somente apenas");
+        c.setCaso(8);
+        lc.add(c);
+        
+        
+        c = new Conjuncao("como", "OCSd");
+        c.setCaso(3);
+        c.setComplemento("tanto");
+        lc.add(c);
+        
+        
+        
+        
         c = new Conjuncao("mas também", "OCSd");
         c.setComplemento("não só somente apenas");
         lc.add(c);
@@ -64,9 +87,20 @@ public class HandlerConjuncao {
         c.setComplemento("não só somente apenas");
         lc.add(c);
         
+        c = new Conjuncao("como ainda", "OCSd");
+        c.setComplemento("não só somente apenas");
+        lc.add(c);
+        
         c = new Conjuncao("senão também", "OCSd");
         c.setComplemento("não só somente apenas");
         lc.add(c);
+        
+        c = new Conjuncao("senão ainda", "OCSd");
+        c.setComplemento("não só somente apenas");
+        lc.add(c);
+        
+        
+        
         
         c = new Conjuncao("mas sim", "OCSv");
         c.setComplemento("não");
@@ -163,4 +197,15 @@ public class HandlerConjuncao {
         return null;
     }
 
+    // calpo 2.7
+    public Conjuncao reconhece(String conjuncao, int caso) {
+
+        for (Conjuncao c : lc) {
+            if (c.getConjuncao().equals(conjuncao.toLowerCase()) &&
+                    c.getCaso() == caso ) { // trabalhando com a função LowerCase para evitar problemas de case sensitive
+                return c;
+            }
+        }
+        return null;
+    }
 }
