@@ -46,13 +46,18 @@ public class HandlerConjuncao {
         // Cabe ressaltar que o réu é pessoa de boa índole e honesta, Outrossim, cumpre salientar que possui bons antecedentes e jamais participou em qualquer delito
         
         c = new Conjuncao("mas", "OCSv");
-        c.setCaso(6);
+        c.setCaso(7);
         lc.add(c);
-        
+                       
         c = new Conjuncao("senão", "OCSv");
         c.setCaso(6);
         lc.add(c);
              
+        // Versão 2.9.5
+        c = new Conjuncao("outras", "O?");
+        c.setCaso(9);
+        lc.add(c);
+                
         /*
         c = new Conjuncao("como", "O?");
         c.setCaso(6);
@@ -75,30 +80,54 @@ public class HandlerConjuncao {
         
         
         
+        
+        c = new Conjuncao("mas","OCSd");
+        c.setComplemento("não só somente apenas");
+        c.setCaso(61);
+        lc.add(c);
+        
+        
         c = new Conjuncao("mas também", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
 
         c = new Conjuncao("mas ainda", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
 
         c = new Conjuncao("como também", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
         
         c = new Conjuncao("como ainda", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
+        lc.add(c);
+        
+        
+        c = new Conjuncao("senão", "OCSd");
+        c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
         
         c = new Conjuncao("senão também", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
         
         c = new Conjuncao("senão ainda", "OCSd");
         c.setComplemento("não só somente apenas");
+        c.setCaso(61);
         lc.add(c);
         
+        // Versão 2.9.5
+        c = new Conjuncao("outras vezes", "OCSt");
+        c.setComplemento("umas vezes");
+        c.setCaso(61);
+        lc.add(c);
         
         
         
@@ -114,10 +143,35 @@ public class HandlerConjuncao {
         lc.add(new Conjuncao("contudo", "OCSv"));
 
         lc.add(new Conjuncao("ou", "OCSt"));
+        
 
         c = new Conjuncao("ora", "OCSt");
         c.setCaso(3);
         c.setComplemento("ora");
+        lc.add(c);
+        
+        // versão 2.9.2
+        c = new Conjuncao("quer", "OCSt");
+        c.setCaso(3);
+        c.setComplemento("quer");
+        lc.add(c);
+        
+        // versão 2.9.2
+        c = new Conjuncao("seja", "OCSt");
+        c.setCaso(3);
+        c.setComplemento("seja");
+        lc.add(c);
+
+        // versão 2.9.4
+        c = new Conjuncao("já", "OCSt");
+        c.setCaso(3);
+        c.setComplemento("já");
+        lc.add(c);
+        
+        // versão 2.9.4
+        c = new Conjuncao("talvez", "OCSt");
+        c.setCaso(3);
+        c.setComplemento("talvez");
         lc.add(c);
         
         c = new Conjuncao("antes", "OCSv");
@@ -136,6 +190,10 @@ public class HandlerConjuncao {
         lc.add(new Conjuncao("porquanto", "OCSe"));
         lc.add(new Conjuncao("pois", "OCSe"));
 
+        
+        
+        
+        
         c = new Conjuncao("que", "OCSe");
         c.setCaso(4);
         lc.add(c);
@@ -146,6 +204,8 @@ public class HandlerConjuncao {
         //introduzidas por preposições
         lc.add(new Conjuncao("no entanto", "OCSv"));
         lc.add(new Conjuncao("sem embargo", "OCSv"));
+        lc.add(new Conjuncao("ainda assim", "OCSv")); // incluido na versão 2.9
+        
 
         lc.add(new Conjuncao("por conseguinte", "OCSc"));
         lc.add(new Conjuncao("por consequência", "OCSc"));
@@ -170,6 +230,8 @@ public class HandlerConjuncao {
         //  *------------------------------
         lc.add(new Conjuncao("ao passo que", "OCSv"));
         lc.add(new Conjuncao("em todo caso", "OCSv"));
+        lc.add(new Conjuncao("em vista disso", "OCSc")); // Versão 2.9.6
+
 
         //lc.add(new Conjuncao("de modo que", "OCSe")); // =(que) ?????
         //lc.add(new Conjuncao("de sorte que", "OCSe"));

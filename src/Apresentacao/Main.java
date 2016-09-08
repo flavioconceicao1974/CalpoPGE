@@ -45,7 +45,7 @@ public class Main extends javax.swing.JFrame {
         jButton_Limpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Calpo 2.6");
+        setTitle("Calpo 2.8");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jButton_Classificar.setBackground(new java.awt.Color(51, 102, 255));

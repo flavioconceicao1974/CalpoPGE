@@ -58,6 +58,7 @@ public class Sentenca {
                 }
 
                 if (flag_insere) {
+                    //System.out.println("tamanho"+lo.size());
                     if (o.isVerbo()) {
                         lo.add(o);
                         o = new Oracao();
@@ -77,6 +78,7 @@ public class Sentenca {
 
                     }
                     o.setConjuncao(true);
+                    o.setConectivo(c.getConjuncao());
                 }
 
                 if (c.getCaso() == 3 && lo.size() > 0) { // O rio se estreitava, ora se alargava caprichosamente.
@@ -86,20 +88,28 @@ public class Sentenca {
                     if (i > 0 && !lil.get(i - 1).isVirgula()) {
                         o.setClasse("O?");
                     }
+
                 } else if (c.getCaso() >= 6) {  // 
                     // A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
 
                     if (i + 1 < lil.size()) {
 
-                        if (c.getCaso() != 8) {
+                        if ( c.getCaso() == 7 || 
+                             c.getCaso() == 9) { // // Versão 2.9.5
                             HandlerConjuncao hc = new HandlerConjuncao();
                             String locucaoConjuntiva = il.getItemLexical() + " " + lil.get(i + 1).getItemLexical();
                             c = hc.reconhece(locucaoConjuntiva);
+                            if (c == null && c.getCaso() == 7 ) {
+                                c = hc.reconhece(il.getItemLexical(), 61);
+                            }
+                        } else if (c.getCaso() == 6) {
+                            HandlerConjuncao hc = new HandlerConjuncao();
+                            c = hc.reconhece(c.getConjuncao(), 61);
                         }
                         if (c != null) {
                             o.setClasse(c.getTipo());
 
-                            if (c.getCaso() != 8){ // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
+                            if (c.getCaso() != 8) { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
                                 // esse procedimento no próximo laço!
                                 flagAddLexema = false;
 
@@ -110,24 +120,34 @@ public class Sentenca {
                             }
                             if (c.getCaso() == 7) {
                                 // caso 7 = A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
+
                                 classificaCasoTres(c, o);
                                 if (!o.getClasse().equals("O?")) {
                                     o.setVerbo(true);
                                 }
                             } else {
                                 //Ele não só estuda, mas também trabalha. ==> caso 6
+                                System.out.println("está aqui");
                                 if (!classificaCasoSeis(c, o)) {
+                                    HandlerConjuncao hc = new HandlerConjuncao();
                                     if (c.getCaso() == 8) {
                                         // pode ser caso 3
                                         // Ela tanto  correu como caminhou.
-                                        HandlerConjuncao hc = new HandlerConjuncao();
                                         c = hc.reconhece(c.getConjuncao(), 3);
                                         classificaCasoTres(c, o);
                                     } else {
-                                        //  => oração INcompleta Eg. O rio se estreitava, ora se alargava caprichosamente.
-                                        Oracao oAux = lo.get(lo.size() - 1);
-                                        oAux.setClasse("O?");
-                                        o.setClasse("O?");
+                                        // então é caso 6 (mas, senão)
+                                        //*******************************************************************
+                                        // esse procedimento no próximo laço!
+                                        flagAddLexema = true;
+                                        // Adicionando a locução completa para dentro da oração
+                                        o.remove(o.size()-1);
+                                        o.remove(o.size()-1);
+                                        i--;
+                                        //*******************************************************************
+                                        
+                                        c = hc.reconhece(il.getItemLexical());
+                                        o.setClasse(c.getTipo());
                                     }
                                 }
                             }
@@ -154,6 +174,7 @@ public class Sentenca {
                             o = new Oracao();
                         }
                         o.setConjuncao(true);
+                        o.setConectivo(c.getConjuncao());
                         o.setClasse(c.getTipo());
 
                         { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
@@ -177,6 +198,7 @@ public class Sentenca {
                                 o = new Oracao();
                             }
                             o.setConjuncao(true);
+                            o.setConectivo(c.getConjuncao());
                             o.setClasse(c.getTipo());
 
                             { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
@@ -210,6 +232,7 @@ public class Sentenca {
                             o = new Oracao();
                         }
                         o.setConjuncao(true);
+                        o.setConectivo(c.getConjuncao());
                         o.setClasse(c.getTipo());
 
                         { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
@@ -242,6 +265,7 @@ public class Sentenca {
                             o = new Oracao();
                         }
                         o.setConjuncao(true);
+                        o.setConectivo(c.getConjuncao());
                         o.setClasse(c.getTipo());
 
                         { // tudo isso devido a locuções do tipo ...que, por o termo <que> pode desfazer
@@ -284,9 +308,20 @@ public class Sentenca {
         // se a oração provinda da lista (aux) não contiver conjunção, mas a pseudo-oração contiver
         // então ela é uma oração conclusiva, já que é a única que possui a conjunção após o verbo
         // e.g. O homem depende do solo e da flora; deve, pois, preservá-los.
+        
         if (!aux.isConjuncao() && o.isConjuncao()) {
+            
+            //corrigir => Não pude sair hoje; fiquei assistindo, porém, a um filme com minha esposa.
+            // O homem não gosta do solo e da flora; deve, porém, preservá-los.
+            // versão 2.9.1
             aux.setConjuncao(true);
-            aux.setClasse("OCSc");
+            HandlerConjuncao hc = new HandlerConjuncao();
+            c = hc.reconhece(o.getConectivo());
+            aux.setClasse(c.getTipo());
+            // caso especial => versão 2.9.3
+            if( c.getConjuncao().equals("pois")){
+                aux.setClasse("OCSc");
+            }
         }
 
         for (int i = 0; i < o.size(); i++) {
@@ -348,7 +383,7 @@ public class Sentenca {
      */
     public void classificaCasoTres(Conjuncao c, Oracao corr) {
         Oracao o = lo.get(lo.size() - 1);
-        
+
         if (c == null) {
             //  => oração INcompleta Eg. O rio se estreitava, ora se alargava caprichosamente.
             o.setClasse("O?");
@@ -356,8 +391,6 @@ public class Sentenca {
             return;
         }
 
-        
-        
         for (int i = 0; i < o.size(); i++) {
             String lexema = o.getItemLexical(i).getItemLexical();
             if (c.getComplemento().equals(lexema.toLowerCase())) {  // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
@@ -375,11 +408,11 @@ public class Sentenca {
         String[] complemento = c.getComplemento().split(" ");
         for (int i = 0; i < o.size(); i++) {
             String lexema = o.getItemLexical(i).getItemLexical();
-            if (complemento[0].equals(lexema)) {  // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
+            if (complemento[0].equals(lexema.toLowerCase())) {  // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
                 if (i + 1 < o.size()) {
                     lexema = o.getItemLexical(i + 1).getItemLexical();
                     for (int j = 1; j < complemento.length; j++) {
-                        if (complemento[j].equals(lexema)) { // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
+                        if (complemento[j].equals(lexema.toLowerCase())) { // verifica se encontra a conjunção (ora...ora, quer...quer) na oração anterior
                             return true; // ok => oração completa Eg. O rio ora se estreitava, ora se alargava caprichosamente.
                         }
                     }

@@ -59,8 +59,8 @@ public class ItemLexical {
                 // Eg. O Grêmio perdeu o grenal, todavia o Inter é o novo campeão! (Todavia)
                 return hc.reconhece(this.getItemLexical());
             case 'P': // pronome relativo Eg. Não te queixes, que há outros mais infelizes.
-                if((this.getClasseGramatical().equals("PR0")) || 
-                   (this.getClasseGramatical().equals("PT0"))) {  // Ela tanto andou quanto caminhou. (calpo 2.7)
+                if ((this.getClasseGramatical().equals("PR0"))
+                        || (this.getClasseGramatical().equals("PT0"))) {  // Ela tanto andou quanto caminhou. (calpo 2.7)
                     return hc.reconhece(this.getItemLexical());
                 }
                 break;
@@ -69,6 +69,25 @@ public class ItemLexical {
                     return hc.reconhece(this.getItemLexical());
                 }
                 break;
+            // versão 2.9.2
+            case 'V': // verbo ( corrigindo erro do TreeTagger)
+                // pode ser=>  quer tu queiras, quer tu não queiras, ela virá amanhã. 
+
+                if (this.getItemLexical().toLowerCase().equals("quer")
+                        || this.getItemLexical().toLowerCase().equals("seja")) {
+                    System.out.println("seether");
+                    return hc.reconhece(this.getItemLexical());
+                }
+                break;
+                
+            // versão 2.9.5
+            case 'D': 
+                // umas vezes ele ganha, outras vezes ele perde.
+                if (this.getItemLexical().toLowerCase().equals("outras")){
+                    return hc.reconhece(this.getItemLexical());
+                }
+                break;
+
         }
         return null;
     }
@@ -156,8 +175,7 @@ public class ItemLexical {
         }
         return false;
     }
-    
-    
+
     @Override
     public String toString() {
         return "ItemLexical : " + lexema + " - " + classeGramatical;

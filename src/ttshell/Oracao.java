@@ -12,6 +12,7 @@ public class Oracao {
 
     private boolean verbo;
     private boolean conjuncao;
+    private String conectivo;
     private String classe;
     private Tipo tipo; // mudar para enumeracao 1-coordenada 2-subordinada
 
@@ -39,6 +40,14 @@ public class Oracao {
 
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
+    }
+
+    public String getConectivo() {
+        return conectivo;
+    }
+
+    public void setConectivo(String conectivo) {
+        this.conectivo = conectivo;
     }
 
     public ItemLexical getItemLexical(int posicao) {
