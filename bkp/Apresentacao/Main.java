@@ -22,6 +22,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
     }
 
     /**
@@ -41,18 +42,24 @@ public class Main extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLabel_Foot = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButton_Limpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Calpo 2.9.6");
+        setTitle("Calpo 2.8");
+        setBackground(new java.awt.Color(255, 255, 255));
 
+        jButton_Classificar.setBackground(new java.awt.Color(51, 102, 255));
+        jButton_Classificar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton_Classificar.setForeground(new java.awt.Color(255, 255, 255));
         jButton_Classificar.setText("Classificar");
+        jButton_Classificar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton_Classificar.setSelected(true);
         jButton_Classificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton_ClassificarMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jButton_ClassificarMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton_ClassificarMouseEntered(evt);
             }
         });
         jButton_Classificar.addActionListener(new java.awt.event.ActionListener() {
@@ -69,13 +76,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jButton_Sair.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton_Sair.setText("Sair");
+        jButton_Sair.setBorder(null);
         jButton_Sair.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton_SairMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jButton_SairMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton_SairMouseEntered(evt);
             }
         });
         jButton_Sair.addActionListener(new java.awt.event.ActionListener() {
@@ -115,18 +124,20 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 38, Short.MAX_VALUE)
         );
 
-        jButton1.setText("Limpar");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1MouseEntered(evt);
-            }
+        jButton_Limpar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton_Limpar.setText("Limpar");
+        jButton_Limpar.setBorder(null);
+        jButton_Limpar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton1MouseExited(evt);
+                jButton_LimparMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton_LimparMouseEntered(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Limpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_LimparActionPerformed(evt);
             }
         });
 
@@ -138,39 +149,39 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Classificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(3, 3, 3))
+                            .addComponent(jButton_Classificar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                            .addComponent(jButton_Limpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Foot, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel_Foot, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 87, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Classificar)
+                        .addComponent(jButton_Classificar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jButton_Limpar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_Sair)))
+                        .addComponent(jButton_Sair, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_Foot, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -233,18 +244,18 @@ public class Main extends javax.swing.JFrame {
         jLabel_Foot.setText("");        // TODO add your handling code here:        // TODO add your handling code here:        // TODO add your handling code here:
     }//GEN-LAST:event_jTextArea1MouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_LimparMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LimparMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_LimparMouseExited
+
+    private void jButton_LimparMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LimparMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_LimparMouseEntered
+
+    private void jButton_LimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LimparActionPerformed
         jTextArea1.setText("");
         jTextArea2.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-        jLabel_Foot.setText("Limpa a área de texto.");
-    }//GEN-LAST:event_jButton1MouseEntered
-
-    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
-        jLabel_Foot.setText("");
-    }//GEN-LAST:event_jButton1MouseExited
+    }//GEN-LAST:event_jButton_LimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,8 +294,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_Classificar;
+    private javax.swing.JButton jButton_Limpar;
     private javax.swing.JButton jButton_Sair;
     private javax.swing.JLabel jLabel_Foot;
     private javax.swing.JPanel jPanel1;

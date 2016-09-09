@@ -76,15 +76,15 @@ public class ItemLexical {
                 if (this.getItemLexical().toLowerCase().equals("quer")
                         || this.getItemLexical().toLowerCase().equals("seja")
                         || this.getItemLexical().toLowerCase().equals("dessarte")) { // versão 2.9.6
-
+                    System.out.println("seether");
                     return hc.reconhece(this.getItemLexical());
                 }
                 break;
-
+                
             // versão 2.9.5
-            case 'D':
+            case 'D': 
                 // umas vezes ele ganha, outras vezes ele perde.
-                if (this.getItemLexical().toLowerCase().equals("outras")) {
+                if (this.getItemLexical().toLowerCase().equals("outras")){
                     return hc.reconhece(this.getItemLexical());
                 }
                 break;

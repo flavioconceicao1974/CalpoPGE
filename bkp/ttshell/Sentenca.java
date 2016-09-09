@@ -94,22 +94,14 @@ public class Sentenca {
 
                     if (i + 1 < lil.size()) {
 
-                        if (c.getCaso() == 7
-                                || c.getCaso() == 9 || // Versão 2.9.5
-                                c.getCaso() == 91) { // Versão 2.9.7
+                        if ( c.getCaso() == 7 || 
+                             c.getCaso() == 9) { // // Versão 2.9.5
                             HandlerConjuncao hc = new HandlerConjuncao();
                             String locucaoConjuntiva = il.getItemLexical() + " " + lil.get(i + 1).getItemLexical();
                             Conjuncao aux = c;
                             c = hc.reconhece(locucaoConjuntiva);
-                            if (c == null) {
-                                 if( aux.getCaso() == 7 ){
-                                     c = hc.reconhece(il.getItemLexical(), 61);
-                                 }else if( aux.getCaso() == 91 ){
-                                     c = hc.reconhece(il.getItemLexical(), 3); // Versão 2.9.7
-                                     if (c.getCaso() == 3 && lo.size() > 0) { // quer ele esteja louco, quer ele não esteja.
-                                        classificaCasoTres(c, o);
-                                     }
-                                 }
+                            if (c == null && aux.getCaso() == 7 ) {
+                                c = hc.reconhece(il.getItemLexical(), 61);
                             }
                         } else if (c.getCaso() == 6) {
                             HandlerConjuncao hc = new HandlerConjuncao();
@@ -127,8 +119,7 @@ public class Sentenca {
                                 o.add(lil.get(i + 1));
                                 i++;
                             }
-                            if (c.getCaso() == 7
-                                    || c.getCaso() == 91) { // versão 2.9.7
+                            if (c.getCaso() == 7) {
                                 // caso 7 = A civilização não se mede pelo aperfeiçoamento material, mas sim pela elevação moral. ==> caso 7
 
                                 classificaCasoTres(c, o);
@@ -151,11 +142,11 @@ public class Sentenca {
                                         // esse procedimento no próximo laço!
                                         flagAddLexema = true;
                                         // Adicionando a locução completa para dentro da oração
-                                        o.remove(o.size() - 1);
-                                        o.remove(o.size() - 1);
+                                        o.remove(o.size()-1);
+                                        o.remove(o.size()-1);
                                         i--;
                                         //*******************************************************************
-
+                                        
                                         c = hc.reconhece(il.getItemLexical());
                                         o.setClasse(c.getTipo());
                                     }
@@ -318,8 +309,9 @@ public class Sentenca {
         // se a oração provinda da lista (aux) não contiver conjunção, mas a pseudo-oração contiver
         // então ela é uma oração conclusiva, já que é a única que possui a conjunção após o verbo
         // e.g. O homem depende do solo e da flora; deve, pois, preservá-los.
+        
         if (!aux.isConjuncao() && o.isConjuncao()) {
-
+            
             //corrigir => Não pude sair hoje; fiquei assistindo, porém, a um filme com minha esposa.
             // O homem não gosta do solo e da flora; deve, porém, preservá-los.
             // versão 2.9.1
@@ -328,7 +320,7 @@ public class Sentenca {
             c = hc.reconhece(o.getConectivo());
             aux.setClasse(c.getTipo());
             // caso especial => versão 2.9.3
-            if (c.getConjuncao().equals("pois")) {
+            if( c.getConjuncao().equals("pois")){
                 aux.setClasse("OCSc");
             }
         }
@@ -413,7 +405,7 @@ public class Sentenca {
     }
 
     public boolean classificaCasoSeis(Conjuncao c, Oracao corr) {
-        if (lo.isEmpty()) {
+        if( lo.isEmpty()){
             return false;
         }
         Oracao o = lo.get(lo.size() - 1);
