@@ -50,8 +50,6 @@ public class HandlerConjuncao {
         
 
         
-        
-        
         caso = 2; // 2.FALSO_CONECTIVO [e] [nem]; 
         c = new Conjuncao("e", "OCSd");
         c.setCaso(2);
